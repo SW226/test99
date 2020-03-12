@@ -24,7 +24,7 @@ while True:
         TextSendMessage(text='無法連線Google試算表'))
         sys.exit(1)
 
-    wb = load_workbook('1.xlsx')
+    wb = load_workbook('1.xlsx',data_only=True)
 
     sheet_names = wb.sheetnames
 
@@ -32,11 +32,13 @@ while True:
     ws1 = []
     rows = ws.rows
     columns = ws.columns
-    lines = []
     for row in rows:
-        line = [col.value for col in row] 
-        # ws1.append(line[:1])
-        lines = line[2],line[8:9],line[5:6]
-        worksheet.append_row(lines)
-        break
+        lines = []
+        line = [col.value for col in row]
+        if line[1] != '' and line[1] != '品名':
+            lines.append(line[0])
+            lines.append(line[1])
+            lines.append(line[8])
+            lines.append(line[5])
+            worksheet.append_row(lines)
     break
